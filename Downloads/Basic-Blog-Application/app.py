@@ -27,6 +27,7 @@ def index():
     posts = load_posts()
     return render_template("index.html", posts=posts)
 
+
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     """Adds a new blog post."""
@@ -57,6 +58,7 @@ def add():
         return redirect(url_for('index'))
 
     return render_template('add.html')
+
 
 @app.route('/delete/<int:post_id>')
 def delete(post_id):
@@ -93,13 +95,18 @@ def update(post_id):
     return render_template('update.html', post=post)
 
 
+@app.route('/like/<int:post_id>')
+def like_post(post_id):
+    posts = load_posts()
 
-    # Update the post in the JSON file
-    # Redirect back to index
+    for post in posts:
+        if post["id"] == post_id:
+            post["likes"] = post.get("likes", 0) + 1
+            break
 
-    # Else, it's a GET request
-    # So display the update.html page
-    return render_template('update.html', post=post)
+    save_posts(posts)
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
