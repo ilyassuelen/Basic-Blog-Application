@@ -67,5 +67,39 @@ def delete(post_id):
     return redirect(url_for('index'))
 
 
+@app.route('/update/<int:post_id>', methods=['GET', 'POST'])
+def update(post_id):
+    """Updating an existing blog post"""
+    posts = load_posts()
+
+    post = None
+    for post in posts:
+        if post["id"] == post_id:
+            post = post
+            break
+
+    if posts is None:
+        # Post not found
+        return "Post not found", 404
+
+    if request.method == 'POST':
+        post["author"] = request.form.get('author')
+        post["title"] = request.form.get('title')
+        post["content"] = request.form.get('content')
+
+        save_posts(posts)
+        return redirect(url_for('index'))
+
+    return render_template('update.html', post=post)
+
+
+
+    # Update the post in the JSON file
+    # Redirect back to index
+
+    # Else, it's a GET request
+    # So display the update.html page
+    return render_template('update.html', post=post)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
