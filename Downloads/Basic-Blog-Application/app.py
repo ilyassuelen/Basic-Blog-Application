@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 import json
 import os
 
@@ -26,6 +26,37 @@ def index():
     """Homepage - Shows all Blog posts."""
     posts = load_posts()
     return render_template("index.html", posts=posts)
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    """Adds a new blog post."""
+    if request.method == 'POST':
+        author = request.form.get('author')
+        title = request.form.get('title')
+        content = request.form.get('content')
+
+        # Loading available Posts
+        posts = load_posts()
+
+        # Create ID for Post, adding and save posts in JSON-File
+        if posts:
+            new_id = max(post["id"] for post in posts) + 1
+        else:
+            new_id = 1
+
+        new_post = {
+            "id": new_id,
+            "author": author,
+            "title": title,
+            "content": content
+        }
+
+        posts.append(new_post)
+        save_posts(posts)
+
+        return redirect(url_for('index'))
+
+    return render_template('add.html')
 
 
 if __name__ == '__main__':
