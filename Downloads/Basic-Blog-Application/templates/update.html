@@ -7,27 +7,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>✏️ Update Blog Post</h1>
+    <div class="container">
+        <h1>✏️ Update Blog Post</h1>
 
-    <form action="{{ url_for('update', post_id=post['id']) }}" method="POST">
-        <div class="form-group">
-            <label for="author">Author:</label><br>
-            <input type="text" id="author" name="author" value="{{ post['author'] }}" required><br>
-        </div>
+        <form action="{{ url_for('update', post_id=post['id']) }}" method="POST">
+            <div class="form-group">
+                <label for="author">Author:</label><br>
+                <input type="text" id="author" name="author" value="{{ post['author'] }}" required><br>
+            </div>
 
-        <div class="form-group">
-            <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" value="{{ post['title'] }}" required><br>
-        </div>
+            <div class="form-group">
+                <label for="title">Title:</label><br>
+                <input type="text" id="title" name="title" value="{{ post['title'] }}" required><br>
+            </div>
 
-        <div class="form-group">
-            <label for="content">Content:</label><br>
-            <textarea id="content" name="content" rows="6" required>{{ post['content'] }}</textarea><br>
-        </div>
+            <div class="form-group">
+                <label for="content">Content:</label><br>
+                <textarea id="content" name="content" rows="6" required>{{ post['content'] }}</textarea><br>
+            </div>
 
-        <button type="submit">💾 Update Post</button>
-    </form>
+            <button type="submit">💾 Update Post</button>
+        </form>
 
-    <p><a href="{{ url_for('index') }}">⬅ Back to Home</a></p>
+        <p><a href="{{ url_for('index') }}">⬅ Back to Home</a></p>
+    </div>
 </body>
 </html>
